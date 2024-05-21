@@ -71,7 +71,7 @@ class FormatBase(metaclass=ABCMeta):
         self.logger = context["logger"]
         self.fully_qualified_key = self.create_key()
 
-        self.logger.info(f"context: {self.context.keys()}")
+        self.logger.info(f"context: {self.context.get('batch_id')}")
         self.logger.info(f"key: {self.fully_qualified_key}")
 
     @abstractmethod
