@@ -67,14 +67,10 @@ class FormatBase(metaclass=ABCMeta):
                 endpoint_url=aws_config.get("aws_endpoint_override", None),
             )
 
-        steam_name: str = self.context["stream_name"]
         self.prefix = config.get("prefix", None)
         self.logger = context["logger"]
-        self.fully_qualified_key = (
-            f"{self.bucket}/{self.prefix}/{steam_name}"
-            if config.get("use_raw_stream_name")
-            else self.create_key()
-        )
+        self.fully_qualified_key = self.create_key()
+        
         self.logger.info(f"key: {self.fully_qualified_key}")
 
     @abstractmethod
@@ -111,7 +107,12 @@ class FormatBase(metaclass=ABCMeta):
             if self.stream_name_path_override is None
             else self.stream_name_path_override
         )
-        folder_path = f"{self.bucket}/{self.prefix}/{stream_name}/"
+
+        if self.prefix:
+            folder_path = f"{self.bucket}/{self.prefix}/{stream_name}/"
+        else:
+            folder_path = f"{self.bucket}/{stream_name}/"
+            
         file_name = ""
         if self.config["append_date_to_prefix"]:
             grain = DATE_GRAIN[self.config["append_date_to_prefix_grain"].lower()]
