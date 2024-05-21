@@ -111,7 +111,7 @@ class FormatBase(metaclass=ABCMeta):
         if self.prefix:
             folder_path = f"{self.bucket}/{self.prefix}/{stream_name}/"
         else:
-            folder_path = f"{self.bucket}/{stream_name}/"
+            folder_path = f"{self.bucket}/{self.context["tap_name"]}/{stream_name}/"
             
         file_name = ""
         if self.config["append_date_to_prefix"]:
