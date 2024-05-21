@@ -107,7 +107,7 @@ class FormatBase(metaclass=ABCMeta):
             if self.stream_name_path_override is None
             else self.stream_name_path_override
         )
-        tap_name = self.context["tap_name"]
+        tap_name = self.context.get("tap_name", None)
 
         if self.prefix:
             folder_path = f"{self.bucket}/{self.prefix}/{stream_name}/"
