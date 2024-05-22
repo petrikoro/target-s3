@@ -125,7 +125,7 @@ class FormatBase(metaclass=ABCMeta):
             )
         if self.config["append_date_to_filename"]:
             grain = DATE_GRAIN[self.config["append_date_to_filename_grain"].lower()]
-            file_name = file_name + '_' + f"{self.create_file_structure(batch_start, grain)}"
+            file_name = f"{self.create_file_structure(batch_start, grain)}" + '_' + file_name
 
         return f"{folder_path}{file_name}.{self.extension}.{self.compression}"
 
