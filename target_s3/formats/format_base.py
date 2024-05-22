@@ -1,8 +1,9 @@
 import re
-import inflection
+import uuid
 import json
-import collections
 import logging
+import inflection
+import collections
 from datetime import datetime
 from abc import ABCMeta, abstractmethod
 
@@ -113,7 +114,7 @@ class FormatBase(metaclass=ABCMeta):
         else:
             folder_path = f"{self.bucket}/{stream_name}/"
             
-        file_name = ""
+        file_name = str(uuid.uuid4())
         if self.config["append_date_to_prefix"]:
             grain = DATE_GRAIN[self.config["append_date_to_prefix_grain"].lower()]
             partition_name_enabled = False
@@ -124,7 +125,7 @@ class FormatBase(metaclass=ABCMeta):
             )
         if self.config["append_date_to_filename"]:
             grain = DATE_GRAIN[self.config["append_date_to_filename_grain"].lower()]
-            file_name += f"{self.create_file_structure(batch_start, grain)}"
+            file_name = file_name + '_' + f"{self.create_file_structure(batch_start, grain)}"
 
         return f"{folder_path}{file_name}.{self.extension}.{self.compression}"
 
