@@ -71,7 +71,6 @@ class FormatBase(metaclass=ABCMeta):
         self.logger = context["logger"]
         self.fully_qualified_key = self.create_key()
 
-        self.logger.info(f"context: {self.context.get('batch_id')}")
         self.logger.info(f"key: {self.fully_qualified_key}")
 
     @abstractmethod
@@ -108,12 +107,11 @@ class FormatBase(metaclass=ABCMeta):
             if self.stream_name_path_override is None
             else self.stream_name_path_override
         )
-        tap_name = self.context.get("tap_name", None)
 
         if self.prefix:
             folder_path = f"{self.bucket}/{self.prefix}/{stream_name}/"
         else:
-            folder_path = f"{self.bucket}/{tap_name}/{stream_name}/"
+            folder_path = f"{self.bucket}/{stream_name}/"
             
         file_name = ""
         if self.config["append_date_to_prefix"]:
